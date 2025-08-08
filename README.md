@@ -1,7 +1,9 @@
 # Reproduction of : FontStudio
 
-[Original Paper (arXiv)](https://arxiv.org/abs/2406.08392)
 ![sample](images/sample.png)
+
+[Original Paper (arXiv)](https://arxiv.org/abs/2406.08392)
+
 This project reproduces the paper "FontStudio: Shape-Adaptive Diffusion Model for Coherent and Consistent Font Effect Generation". The paper proposes a method to generate artistic fonts with a consistent style and natural, shape-adaptive effects.
 
 ## requirements
