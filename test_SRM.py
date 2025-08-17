@@ -4,21 +4,52 @@ from SRM.SRM_SAET import SRM_SAET
 from SRM.SRMpipeline import StableDiffusionXLPipeline
 from SRM.SVD import SVDAutoencoderKL
 from PIL import Image
+import argparse
 
+def get_args():
+    parser = argparse.ArgumentParser(
+        description="SRM inference script",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
 
-svd_path="your/path/to/svd-model"
-sd_path="stabilityai/stable-diffusion-xl-base-1.0"
+    parser.add_argument(
+        "--svd_path",
+        default="models/SVD_model",
+        help="Path to the SVD model"
+    )
+    parser.add_argument(
+        "--sd_path",
+        default="stabilityai/stable-diffusion-xl-base-1.0",
+        help="Path to the Stable Diffusion base model"
+    )
+    parser.add_argument(
+        "--font_root",
+        default="font_sample",
+        help="Root directory of fonts"
+    )
+    parser.add_argument(
+        "--save_root",
+        default="test",
+        help="Directory to save results"
+    )
+    parser.add_argument(
+        "--prompt",
+        required=True,   
+        help="Prompt for image generation"
+    )
 
-font_root='font_sample'
-save_root='test'
+    return parser.parse_args()
 
-prompt = "bamboo"
-word='FontStudio'
+args = get_args()
 
+svd_path = args.svd_path
+sd_path = args.sd_path
+root = args.font_root
+save_root = args.save_root
+prompt = args.prompt
 
-root=os.path.join(font_root,word)
-save_path=os.path.join(save_root,word,'image')
-prior_path=os.path.join(save_root,word,'prior')
+save_path=os.path.join(save_root,'image')
+prior_path=os.path.join(save_root,'prior')
 if not os.path.exists(save_path):
     os.makedirs(save_path)
 
