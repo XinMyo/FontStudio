@@ -1,9 +1,7 @@
 # Reproduction of : FontStudio
 
-![sample](images/sample.png)
-
 [Original Paper (arXiv)](https://arxiv.org/abs/2406.08392)
-
+![sample](images/sample.png)
 This project reproduces the paper "FontStudio: Shape-Adaptive Diffusion Model for Coherent and Consistent Font Effect Generation". The paper proposes a method to generate artistic fonts with a consistent style and natural, shape-adaptive effects.
 
 ## requirements
@@ -27,6 +25,13 @@ pip install -r requirements.txt
 First, use SGM to generate the prior image required by SRM.
 ![sample](images/SGM.png)
 To function properly, SGM requires a ControlNet model that takes a binary mask as input condition. 
+
+- Test the model
+```
+python test_SGM.py --prompt "lava" --font_root font_sample/FontStudio --save_root test/FontStudio --controlnet_path "your/path/to/controlnet-model"
+```
+Download our fine-tuned ControlNet model [here](https://drive.google.com/file/d/1la23MoGbQj1ejWR6LUy9ZK65uTa9m07C/view?usp=sharing) or use your own weights.
+
 - Model initialization
 ```
 from SGM.SGMpipeline import StableDiffusionXLControlNetPipeline
@@ -69,6 +74,12 @@ If there is no reference image, just set the parameters with the `ref_` prefix t
 ### Shape-adaptive Refinement Model (SRM)
 Then use SRM to transform the prior image into the final font image.
 ![sample](images/SRM.png)
+- Test the model
+```
+python test_SRM.py --prompt "lava" --font_root font_sample/FontStudio --save_root test/FontStudio --svd_path "your/path/to/svd-model"
+```
+Download our SVD model [here](https://drive.google.com/file/d/1FOf_HEQ7Sx5UCkDQX0SmvlzFjLWf5X7r/view?usp=sharing) or use your own weights.
+
 - Model initialization
 ```
 from SRM.SRM_SAET import SRM_SAET
