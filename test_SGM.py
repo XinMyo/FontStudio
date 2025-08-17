@@ -4,20 +4,57 @@ from PIL import Image
 from diffusers import ControlNetModel,  AutoencoderKL
 from SGM.SGMpipeline import StableDiffusionXLControlNetPipeline
 from torchvision.transforms import ToTensor
+import argparse
 
-base_model_path = "stabilityai/stable-diffusion-xl-base-1.0"
-controlnet_path = "your/path/to/controlnet-model"
-vae_path="madebyollin/sdxl-vae-fp16-fix"
+def get_args():
+    parser = argparse.ArgumentParser(
+        description="SGM inference script",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
 
-font_root='font_sample'
-save_root='test'
+    parser.add_argument(
+        "--base_model_path",
+        default="stabilityai/stable-diffusion-xl-base-1.0",
+        help="Path to the base model"
+    )
+    parser.add_argument(
+        "--controlnet_path",
+        default="models/controlnet-model",
+        help="Path to the ControlNet model"
+    )
+    parser.add_argument(
+        "--vae_path",
+        default="madebyollin/sdxl-vae-fp16-fix",
+        help="Path to the VAE model"
+    )
+    parser.add_argument(
+        "--font_root",
+        default="font_sample/FontStudio",
+        help="Root directory of fonts"
+    )
+    parser.add_argument(
+        "--save_root",
+        default="test/FontStudio",
+        help="Directory to save results"
+    )
+    parser.add_argument(
+    "--prompt",
+    required=True,   # 必填
+    help="Prompt for image generation"
+    )
 
-prompt = "bamboo"
-word='FontStudio'
+    return parser.parse_args()
 
+args = get_args()
 
-root=os.path.join(font_root,word)
-save_path=os.path.join(save_root,word,'prior')
+base_model_path = args.base_model_path
+controlnet_path = args.controlnet_path
+vae_path = args.vae_path
+root = args.font_root
+save_root = args.save_root
+prompt = args.prompt
+
+save_path=os.path.join(save_root,'prior')
 if not os.path.exists(save_path):
     os.makedirs(save_path)
 
